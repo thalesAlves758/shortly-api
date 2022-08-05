@@ -1,3 +1,4 @@
+import shortUrlSchema from '../schemas/shortUrl.schema.js';
 import signInSchema from '../schemas/signIn.schema.js';
 import signUpSchema from '../schemas/signUp.schema.js';
 import httpStatus from '../utils/httpStatus.js';
@@ -9,6 +10,9 @@ function getSchemaByPath(path) {
 
     case '/signin':
       return signInSchema;
+
+    case '/urls/shorten':
+      return shortUrlSchema;
 
     default:
       return null;

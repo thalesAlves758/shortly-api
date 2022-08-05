@@ -5,7 +5,7 @@ async function findByEmail(email) {
     rows: [user],
   } = await connection.query(
     `
-    SELECT id, name, email
+    SELECT *
     FROM users
     WHERE email = $1
   `,

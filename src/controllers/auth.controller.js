@@ -22,4 +22,24 @@ async function signUp(req, res) {
   }
 }
 
-export default { signUp };
+async function signIn(req, res) {
+  const { email, password } = req.body;
+
+  try {
+    const token = await authServices.signIn(email, password);
+
+    if (!token) {
+      res.sendStatus(httpStatus.UNAUTHORIZED);
+      return;
+    }
+
+    res.send({ token });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .send('Could not validate user');
+  }
+}
+
+export default { signUp, signIn };

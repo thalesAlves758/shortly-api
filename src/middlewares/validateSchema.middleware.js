@@ -1,10 +1,14 @@
+import signInSchema from '../schemas/signIn.schema.js';
 import signUpSchema from '../schemas/signUp.schema.js';
 import httpStatus from '../utils/httpStatus.js';
 
 function getSchemaByPath(path) {
   switch (path) {
-    case '/sign-up':
+    case '/signup':
       return signUpSchema;
+
+    case '/signin':
+      return signInSchema;
 
     default:
       return null;

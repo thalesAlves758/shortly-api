@@ -4,7 +4,7 @@ import httpStatus from '../utils/httpStatus.js';
 
 function getSchemaByPath(path) {
   switch (path) {
-    case '/sign-up':
+    case '/signup':
       return signUpSchema;
 
     case '/signin':

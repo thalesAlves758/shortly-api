@@ -27,7 +27,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.sessions (
     id integer NOT NULL,
     session uuid NOT NULL,
-    user_id integer NOT NULL
+    user_id integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -64,7 +65,8 @@ CREATE TABLE public.shortened_urls (
     short_url text NOT NULL,
     url text NOT NULL,
     visit_count integer DEFAULT 0 NOT NULL,
-    user_id integer NOT NULL
+    user_id integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -100,7 +102,8 @@ CREATE TABLE public.users (
     id integer NOT NULL,
     name character varying(80) NOT NULL,
     email character varying(80) NOT NULL,
-    password text NOT NULL
+    password text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -153,7 +156,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.sessions (id, session, user_id) FROM stdin;
+COPY public.sessions (id, session, user_id, created_at) FROM stdin;
 \.
 
 
@@ -161,7 +164,7 @@ COPY public.sessions (id, session, user_id) FROM stdin;
 -- Data for Name: shortened_urls; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.shortened_urls (id, short_url, url, visit_count, user_id) FROM stdin;
+COPY public.shortened_urls (id, short_url, url, visit_count, user_id, created_at) FROM stdin;
 \.
 
 
@@ -169,7 +172,7 @@ COPY public.shortened_urls (id, short_url, url, visit_count, user_id) FROM stdin
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, password) FROM stdin;
+COPY public.users (id, name, email, password, created_at) FROM stdin;
 \.
 
 

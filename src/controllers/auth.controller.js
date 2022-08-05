@@ -1,3 +1,4 @@
+import authServices from '../services/auth.services.js';
 import userServices from '../services/user.services.js';
 import httpStatus from '../utils/httpStatus.js';
 
@@ -12,7 +13,7 @@ async function signUp(req, res) {
       return;
     }
 
-    await userServices.createUser(name, email, password);
+    await authServices.signUp(name, email, password);
 
     res.sendStatus(httpStatus.CREATED);
   } catch (error) {

@@ -10,4 +10,19 @@ async function create(uuid, userId) {
   );
 }
 
-export default { create };
+async function find(uuid) {
+  const {
+    rows: [session],
+  } = await connection.query(
+    `
+    SELECT id, session, user_id AS "userId", created_at AS "createdAt"
+    FROM sessions
+    WHERE session = $1
+  `,
+    [uuid]
+  );
+
+  return session;
+}
+
+export default { create, find };

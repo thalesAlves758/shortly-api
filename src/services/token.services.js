@@ -12,4 +12,16 @@ function generateToken(payload) {
   return token;
 }
 
-export default { generateToken };
+function validateToken(token) {
+  const jwtSecret = process.env.JWT_SECRET;
+
+  try {
+    const decoded = jwt.verify(token, jwtSecret);
+
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+}
+
+export default { generateToken, validateToken };

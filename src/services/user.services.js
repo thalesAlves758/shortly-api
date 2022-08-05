@@ -4,4 +4,8 @@ async function findUserByEmail(email) {
   return userRepository.findByEmail(email);
 }
 
-export default { findUserByEmail };
+async function findUserBySession(session) {
+  return userRepository.findBySession(session);
+}
+
+export default { findUserByEmail, findUserBySession };

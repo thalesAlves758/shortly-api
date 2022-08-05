@@ -39,4 +39,24 @@ async function getUrl(req, res) {
   }
 }
 
-export default { shortUrl, getUrl };
+async function openUrl(req, res) {
+  const { shortUrl: shortenedUrlId } = req.params;
+
+  try {
+    const shortenedUrl = await urlServices.getShortenedUrlByShortUrl(
+      shortenedUrlId
+    );
+
+    if (!shortenedUrl) {
+      res.sendStatus(httpStatus.NOT_FOUND);
+      return;
+    }
+
+    res.redirect(shortenedUrl.url);
+  } catch (error) {
+    console.log(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Could not open url');
+  }
+}
+
+export default { shortUrl, getUrl, openUrl };

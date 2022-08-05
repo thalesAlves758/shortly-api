@@ -27,8 +27,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.sessions (
     id integer NOT NULL,
     session uuid NOT NULL,
-    userId integer NOT NULL,
-    createdAt timestamp without time zone DEFAULT now() NOT NULL
+    user_id integer NOT NULL
 );
 
 
@@ -57,26 +56,25 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
--- Name: shortenedUrls; Type: TABLE; Schema: public; Owner: postgres
+-- Name: shortened_urls; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.shortenedUrls (
+CREATE TABLE public.shortened_urls (
     id integer NOT NULL,
-    shortUrl text NOT NULL,
+    short_url text NOT NULL,
     url text NOT NULL,
-    visitCount integer DEFAULT 0 NOT NULL,
-    userId integer NOT NULL,
-    createdAt timestamp without time zone DEFAULT now() NOT NULL
+    visit_count integer DEFAULT 0 NOT NULL,
+    user_id integer NOT NULL
 );
 
 
-ALTER TABLE public.shortenedUrls OWNER TO postgres;
+ALTER TABLE public.shortened_urls OWNER TO postgres;
 
 --
--- Name: shortenedUrls_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: shortened_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.shortenedUrls_id_seq
+CREATE SEQUENCE public.shortened_urls_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -85,13 +83,13 @@ CREATE SEQUENCE public.shortenedUrls_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.shortenedUrls_id_seq OWNER TO postgres;
+ALTER TABLE public.shortened_urls_id_seq OWNER TO postgres;
 
 --
--- Name: shortenedUrls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: shortened_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.shortenedUrls_id_seq OWNED BY public.shortenedUrls.id;
+ALTER SEQUENCE public.shortened_urls_id_seq OWNED BY public.shortened_urls.id;
 
 
 --
@@ -102,8 +100,7 @@ CREATE TABLE public.users (
     id integer NOT NULL,
     name character varying(80) NOT NULL,
     email character varying(80) NOT NULL,
-    password text NOT NULL,
-    createdAt timestamp without time zone DEFAULT now() NOT NULL
+    password text NOT NULL
 );
 
 
@@ -139,10 +136,10 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
--- Name: shortenedUrls id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: shortened_urls id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.shortenedUrls ALTER COLUMN id SET DEFAULT nextval('public.shortenedUrls_id_seq'::regclass);
+ALTER TABLE ONLY public.shortened_urls ALTER COLUMN id SET DEFAULT nextval('public.shortened_urls_id_seq'::regclass);
 
 
 --
@@ -156,15 +153,15 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.sessions (id, session, userId, createdAt) FROM stdin;
+COPY public.sessions (id, session, user_id) FROM stdin;
 \.
 
 
 --
--- Data for Name: shortenedUrls; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: shortened_urls; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.shortenedUrls (id, shortUrl, url, visitCount, userId, createdAt) FROM stdin;
+COPY public.shortened_urls (id, short_url, url, visit_count, user_id) FROM stdin;
 \.
 
 
@@ -172,7 +169,7 @@ COPY public.shortenedUrls (id, shortUrl, url, visitCount, userId, createdAt) FRO
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, password, createdAt) FROM stdin;
+COPY public.users (id, name, email, password) FROM stdin;
 \.
 
 
@@ -184,10 +181,10 @@ SELECT pg_catalog.setval('public.sessions_id_seq', 1, false);
 
 
 --
--- Name: shortenedUrls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: shortened_urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.shortenedUrls_id_seq', 1, false);
+SELECT pg_catalog.setval('public.shortened_urls_id_seq', 1, false);
 
 
 --
@@ -214,19 +211,19 @@ ALTER TABLE ONLY public.sessions
 
 
 --
--- Name: shortenedUrls shortenedUrls_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: shortened_urls shortened_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.shortenedUrls
-    ADD CONSTRAINT shortenedUrls_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.shortened_urls
+    ADD CONSTRAINT shortened_urls_pkey PRIMARY KEY (id);
 
 
 --
--- Name: shortenedUrls shortenedUrls_shortUrl_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: shortened_urls shortened_urls_short_url_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.shortenedUrls
-    ADD CONSTRAINT shortenedUrls_shortUrl_key UNIQUE (shortUrl);
+ALTER TABLE ONLY public.shortened_urls
+    ADD CONSTRAINT shortened_urls_short_url_key UNIQUE (short_url);
 
 
 --
@@ -246,19 +243,19 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: sessions sessions_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: sessions sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT sessions_userId_fkey FOREIGN KEY (userId) REFERENCES public.users(id);
+    ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
--- Name: shortenedUrls shortenedUrls_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: shortened_urls shortened_urls_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.shortenedUrls
-    ADD CONSTRAINT shortenedUrls_userId_fkey FOREIGN KEY (userId) REFERENCES public.users(id);
+ALTER TABLE ONLY public.shortened_urls
+    ADD CONSTRAINT shortened_urls_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --

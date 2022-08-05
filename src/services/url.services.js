@@ -10,4 +10,8 @@ async function shortUrl(url, userId) {
   return shortenedUrl;
 }
 
-export default { shortUrl };
+async function getShortenedUrlById(id) {
+  return urlRepository.findById(id);
+}
+
+export default { shortUrl, getShortenedUrlById };

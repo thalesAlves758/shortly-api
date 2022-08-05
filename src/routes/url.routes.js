@@ -13,4 +13,6 @@ urlRouter.post(
   urlController.shortUrl
 );
 
+urlRouter.get('/urls/:id', urlController.getUrl);
+
 export default urlRouter;

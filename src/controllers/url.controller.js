@@ -15,4 +15,28 @@ async function shortUrl(req, res) {
   }
 }
 
-export default { shortUrl };
+async function getUrl(req, res) {
+  const urlId = parseInt(req.params.id);
+
+  try {
+    const shortenedUrl = await urlServices.getShortenedUrlById(urlId);
+
+    if (!shortenedUrl) {
+      res.sendStatus(httpStatus.NOT_FOUND);
+      return;
+    }
+
+    const { id, shortUrl: shortenedUrlId, url } = shortenedUrl;
+
+    res.send({
+      id,
+      shortUrl: shortenedUrlId,
+      url,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Could not find url');
+  }
+}
+
+export default { shortUrl, getUrl };

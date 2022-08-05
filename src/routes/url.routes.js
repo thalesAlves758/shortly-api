@@ -12,7 +12,7 @@ urlRouter.post(
   validateSchema,
   urlController.shortUrl
 );
-
 urlRouter.get('/urls/:id', urlController.getUrl);
+urlRouter.get('/urls/open/:shortUrl', urlController.openUrl);
 
 export default urlRouter;

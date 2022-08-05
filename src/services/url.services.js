@@ -14,4 +14,8 @@ async function getShortenedUrlById(id) {
   return urlRepository.findById(id);
 }
 
-export default { shortUrl, getShortenedUrlById };
+async function getShortenedUrlByShortUrl(shortUrlId) {
+  return urlRepository.findByShortUrl(shortUrlId);
+}
+
+export default { shortUrl, getShortenedUrlById, getShortenedUrlByShortUrl };

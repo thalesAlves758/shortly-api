@@ -25,4 +25,19 @@ async function findById(id) {
   return shortenedUrl;
 }
 
-export default { create, findById };
+async function findByShortUrl(shortUrl) {
+  const {
+    rows: [shortenedUrl],
+  } = await connection.query(
+    `
+    SELECT id, short_url AS "shortUrl", url, visit_count AS "visitCount", user_id AS "userId", created_at AS "createdAt"
+    FROM shortened_urls
+    WHERE short_url = $1
+  `,
+    [shortUrl]
+  );
+
+  return shortenedUrl;
+}
+
+export default { create, findById, findByShortUrl };

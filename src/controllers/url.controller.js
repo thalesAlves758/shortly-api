@@ -61,4 +61,30 @@ async function openUrl(req, res) {
   }
 }
 
-export default { shortUrl, getUrl, openUrl };
+async function deleteUrl(req, res) {
+  const id = parseInt(req.params.id);
+  const { user } = res.locals;
+
+  try {
+    const shortenedUrl = await urlServices.getShortenedUrlById(id);
+
+    if (!shortenedUrl) {
+      res.sendStatus(httpStatus.NOT_FOUND);
+      return;
+    }
+
+    if (shortenedUrl.userId !== user.id) {
+      res.sendStatus(httpStatus.UNAUTHORIZED);
+      return;
+    }
+
+    await urlServices.deleteUrlById(id);
+
+    res.sendStatus(httpStatus.NO_CONTENT);
+  } catch (error) {
+    console.log(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Could not delete url');
+  }
+}
+
+export default { shortUrl, getUrl, openUrl, deleteUrl };

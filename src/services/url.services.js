@@ -27,9 +27,14 @@ async function incrementVisitCountByUrlId(
   await urlRepository.incrementVisitCountById(id, quantity);
 }
 
+async function deleteUrlById(id) {
+  await urlRepository.deleteById(id);
+}
+
 export default {
   shortUrl,
   getShortenedUrlById,
   getShortenedUrlByShortUrl,
   incrementVisitCountByUrlId,
+  deleteUrlById,
 };

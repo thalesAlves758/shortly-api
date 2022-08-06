@@ -14,5 +14,6 @@ urlRouter.post(
 );
 urlRouter.get('/urls/:id', urlController.getUrl);
 urlRouter.get('/urls/open/:shortUrl', urlController.openUrl);
+urlRouter.delete('/urls/:id', validateUser, urlController.deleteUrl);
 
 export default urlRouter;

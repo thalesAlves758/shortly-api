@@ -51,4 +51,20 @@ async function incrementVisitCountById(id, quantity) {
   );
 }
 
-export default { create, findById, findByShortUrl, incrementVisitCountById };
+async function deleteById(id) {
+  await connection.query(
+    `
+    DELETE FROM shortened_urls
+    WHERE id = $1
+  `,
+    [id]
+  );
+}
+
+export default {
+  create,
+  findById,
+  findByShortUrl,
+  incrementVisitCountById,
+  deleteById,
+};

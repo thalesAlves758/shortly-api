@@ -40,4 +40,15 @@ async function findByShortUrl(shortUrl) {
   return shortenedUrl;
 }
 
-export default { create, findById, findByShortUrl };
+async function incrementVisitCountById(id, quantity) {
+  await connection.query(
+    `
+    UPDATE shortened_urls
+    SET visit_count = visit_count + $1
+    WHERE id = $2
+  `,
+    [quantity, id]
+  );
+}
+
+export default { create, findById, findByShortUrl, incrementVisitCountById };

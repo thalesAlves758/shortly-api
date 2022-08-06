@@ -41,4 +41,33 @@ async function findBySession(session) {
   return user;
 }
 
-export default { findByEmail, create, findBySession };
+async function findUserUrls(userId) {
+  const {
+    rows: [userUrls],
+  } = await connection.query(
+    `
+    SELECT
+    users.id,
+    users.name,
+    SUM(shortened_urls.visit_count)::integer AS "visitCount",
+    ARRAY(
+      SELECT row_to_json(shortened_urls_row)
+      FROM (
+        SELECT shortened_urls.id, shortened_urls.short_url AS "shortUrl", shortened_urls.url, shortened_urls.visit_count AS "visitCount"
+        FROM shortened_urls
+        WHERE shortened_urls.user_id = users.id
+        ORDER BY shortened_urls.id
+      ) shortened_urls_row
+    ) AS "shortenedUrls"
+    FROM users
+    JOIN shortened_urls ON shortened_urls.user_id = users.id
+    WHERE users.id = $1
+    GROUP BY users.id;
+  `,
+    [userId]
+  );
+
+  return userUrls;
+}
+
+export default { findByEmail, create, findBySession, findUserUrls };

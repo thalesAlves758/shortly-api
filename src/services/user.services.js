@@ -8,4 +8,8 @@ async function findUserBySession(session) {
   return userRepository.findBySession(session);
 }
 
-export default { findUserByEmail, findUserBySession };
+async function findUserUrls(userId) {
+  return userRepository.findUserUrls(userId);
+}
+
+export default { findUserByEmail, findUserBySession, findUserUrls };

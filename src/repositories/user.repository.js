@@ -70,4 +70,27 @@ async function findUserUrls(userId) {
   return userUrls;
 }
 
-export default { findByEmail, create, findBySession, findUserUrls };
+async function getUsersUrlsRanking() {
+  const { rows: usersUrls } = await connection.query(`
+    SELECT
+      users.id,
+      users.name,
+      COUNT(shortened_urls.id)::integer as "linksCount",
+      COALESCE(SUM(shortened_urls.visit_count), 0)::integer as "visitCount"
+    FROM users
+    LEFT JOIN shortened_urls ON shortened_urls.user_id = users.id
+    GROUP BY users.id
+    ORDER BY "visitCount" DESC
+    LIMIT 10
+  `);
+
+  return usersUrls;
+}
+
+export default {
+  findByEmail,
+  create,
+  findBySession,
+  findUserUrls,
+  getUsersUrlsRanking,
+};

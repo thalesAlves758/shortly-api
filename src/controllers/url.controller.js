@@ -52,6 +52,8 @@ async function openUrl(req, res) {
       return;
     }
 
+    await urlServices.incrementVisitCountByUrlId(shortenedUrl.id);
+
     res.redirect(shortenedUrl.url);
   } catch (error) {
     console.log(error);
